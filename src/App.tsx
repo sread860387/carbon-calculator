@@ -11,6 +11,7 @@ import { CharterFlightsPage } from './pages/CharterFlightsPage';
 import { PEARMetricsPage } from './pages/PEARMetricsPage';
 import { Breadcrumbs } from './components/shared/Breadcrumbs';
 import { OnboardingTour } from './components/shared/OnboardingTour';
+import { SEALogo } from './components/shared/SEALogo';
 import { resetTour } from './utils/onboarding';
 
 type Page = 'landing' | 'info' | 'dashboard' | 'utilities' | 'fuel' | 'evcharging' | 'hotels' | 'commercial' | 'charter' | 'metrics';
@@ -64,9 +65,12 @@ function App() {
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Header */}
         <header className="text-center mb-6 md:mb-8 relative">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-sea-green mb-2 px-2">
-            Carbon Calculator for Film & TV Production
-          </h1>
+          <div className="flex items-center justify-center gap-3 md:gap-4 mb-3">
+            <SEALogo size={48} className="md:w-16 md:h-16" />
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-sea-green">
+              Carbon Calculator for Film & TV Production
+            </h1>
+          </div>
           <p className="text-sm md:text-base text-sea-green-shadow px-2">
             Track and calculate your production's carbon footprint
           </p>
