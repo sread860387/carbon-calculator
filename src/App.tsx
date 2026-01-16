@@ -60,21 +60,21 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
+    <div className="min-h-screen bg-wheat">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Header */}
         <header className="text-center mb-6 md:mb-8 relative">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-2 px-2">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-sea-green mb-2 px-2">
             Carbon Calculator for Film & TV Production
           </h1>
-          <p className="text-sm md:text-base text-gray-600 px-2">
+          <p className="text-sm md:text-base text-sea-green-shadow px-2">
             Track and calculate your production's carbon footprint
           </p>
 
           {/* Help Button */}
           <button
             onClick={handleRestartTour}
-            className="absolute top-0 right-0 px-2 py-1 md:px-4 md:py-2 text-xs md:text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-colors"
+            className="absolute top-0 right-0 px-2 py-1 md:px-4 md:py-2 text-xs md:text-sm font-medium text-sea-green hover:text-sea-bright-green hover:bg-sea-green/10 rounded-lg transition-colors"
             title="Take a tour of the app"
           >
             <span className="hidden sm:inline">?</span> Help<span className="hidden sm:inline"> & Tour</span>
@@ -90,14 +90,14 @@ function App() {
 
         {/* Navigation Tabs */}
         <div className="flex justify-center mb-6 md:mb-8">
-          <div className="inline-flex rounded-lg border border-gray-300 bg-white p-1 flex-wrap gap-1 max-w-full">
+          <div className="inline-flex rounded-lg border border-sea-green/20 bg-white p-1 flex-wrap gap-1 max-w-full">
             <button
               onClick={() => setCurrentPage('landing')}
               className={`
                 px-3 py-1.5 md:px-6 md:py-2 rounded-md text-sm md:text-base font-medium transition-all
                 ${currentPage === 'landing'
-                  ? 'bg-gray-700 text-white shadow-sm'
-                  : 'text-gray-700 hover:bg-gray-100'
+                  ? 'bg-sea-green text-white shadow-sm'
+                  : 'text-sea-green hover:bg-sea-green/10'
                 }
               `}
             >
@@ -108,8 +108,8 @@ function App() {
               className={`
                 px-3 py-1.5 md:px-6 md:py-2 rounded-md text-sm md:text-base font-medium transition-all
                 ${currentPage === 'info'
-                  ? 'bg-slate-500 text-white shadow-sm'
-                  : 'text-gray-700 hover:bg-gray-100'
+                  ? 'bg-sea-green text-white shadow-sm'
+                  : 'text-sea-green hover:bg-sea-green/10'
                 }
               `}
             >
@@ -120,8 +120,8 @@ function App() {
               className={`
                 px-3 py-1.5 md:px-6 md:py-2 rounded-md text-sm md:text-base font-medium transition-all
                 ${currentPage === 'dashboard'
-                  ? 'bg-green-500 text-white shadow-sm'
-                  : 'text-gray-700 hover:bg-gray-100'
+                  ? 'bg-sea-bright-green text-sea-green shadow-sm'
+                  : 'text-sea-green hover:bg-sea-green/10'
                 }
               `}
             >
@@ -132,8 +132,8 @@ function App() {
               className={`
                 px-3 py-1.5 md:px-6 md:py-2 rounded-md text-sm md:text-base font-medium transition-all
                 ${currentPage === 'utilities'
-                  ? 'bg-orange-500 text-white shadow-sm'
-                  : 'text-gray-700 hover:bg-gray-100'
+                  ? 'bg-sea-green text-white shadow-sm'
+                  : 'text-sea-green hover:bg-sea-green/10'
                 }
               `}
             >
@@ -144,8 +144,8 @@ function App() {
               className={`
                 px-3 py-1.5 md:px-6 md:py-2 rounded-md text-sm md:text-base font-medium transition-all
                 ${currentPage === 'fuel'
-                  ? 'bg-purple-500 text-white shadow-sm'
-                  : 'text-gray-700 hover:bg-gray-100'
+                  ? 'bg-production-purple text-white shadow-sm'
+                  : 'text-sea-green hover:bg-sea-green/10'
                 }
               `}
             >
@@ -156,8 +156,8 @@ function App() {
               className={`
                 px-3 py-1.5 md:px-6 md:py-2 rounded-md text-sm md:text-base font-medium transition-all
                 ${currentPage === 'evcharging'
-                  ? 'bg-cyan-500 text-white shadow-sm'
-                  : 'text-gray-700 hover:bg-gray-100'
+                  ? 'bg-sea-green text-white shadow-sm'
+                  : 'text-sea-green hover:bg-sea-green/10'
                 }
               `}
             >
@@ -168,8 +168,8 @@ function App() {
               className={`
                 px-3 py-1.5 md:px-6 md:py-2 rounded-md text-sm md:text-base font-medium transition-all
                 ${currentPage === 'hotels'
-                  ? 'bg-pink-500 text-white shadow-sm'
-                  : 'text-gray-700 hover:bg-gray-100'
+                  ? 'bg-sea-green text-white shadow-sm'
+                  : 'text-sea-green hover:bg-sea-green/10'
                 }
               `}
             >
@@ -180,8 +180,8 @@ function App() {
               className={`
                 px-3 py-1.5 md:px-6 md:py-2 rounded-md text-sm md:text-base font-medium transition-all
                 ${currentPage === 'commercial'
-                  ? 'bg-indigo-500 text-white shadow-sm'
-                  : 'text-gray-700 hover:bg-gray-100'
+                  ? 'bg-sea-green text-white shadow-sm'
+                  : 'text-sea-green hover:bg-sea-green/10'
                 }
               `}
             >
@@ -192,8 +192,8 @@ function App() {
               className={`
                 px-3 py-1.5 md:px-6 md:py-2 rounded-md text-sm md:text-base font-medium transition-all
                 ${currentPage === 'charter'
-                  ? 'bg-sky-500 text-white shadow-sm'
-                  : 'text-gray-700 hover:bg-gray-100'
+                  ? 'bg-sea-green text-white shadow-sm'
+                  : 'text-sea-green hover:bg-sea-green/10'
                 }
               `}
             >
@@ -204,8 +204,8 @@ function App() {
               className={`
                 px-3 py-1.5 md:px-6 md:py-2 rounded-md text-sm md:text-base font-medium transition-all
                 ${currentPage === 'metrics'
-                  ? 'bg-emerald-500 text-white shadow-sm'
-                  : 'text-gray-700 hover:bg-gray-100'
+                  ? 'bg-sea-green text-white shadow-sm'
+                  : 'text-sea-green hover:bg-sea-green/10'
                 }
               `}
             >
@@ -227,7 +227,7 @@ function App() {
         {currentPage === 'metrics' && <PEARMetricsPage />}
 
         {/* Footer */}
-        <footer className="text-center mt-16 text-gray-500 text-sm">
+        <footer className="text-center mt-16 text-sea-green-shadow text-sm">
           <p>Based on DEFRA 2023 Greenhouse Gas Reporting Conversion Factors</p>
           <p className="mt-2">Version 4.2.9</p>
         </footer>

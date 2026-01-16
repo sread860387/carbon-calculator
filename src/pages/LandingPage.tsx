@@ -84,7 +84,7 @@ export function LandingPage({ onNavigate }: LandingPageProps) {
   return (
     <div className="space-y-8">
       {/* Hero Section */}
-      <Card className="bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 text-white border-0">
+      <Card className="bg-gradient-to-r from-sea-green via-sea-green-shadow to-sea-green text-white border-0">
         <CardContent className="p-12">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-5xl font-bold mb-4">
@@ -102,7 +102,7 @@ export function LandingPage({ onNavigate }: LandingPageProps) {
             <div className="flex gap-4 justify-center">
               <Button
                 onClick={() => onNavigate('info')}
-                className="bg-white text-green-600 hover:bg-gray-100 px-8 py-3 text-lg font-semibold"
+                className="bg-sea-bright-green text-sea-green hover:bg-sea-bright-green/90 px-8 py-3 text-lg font-semibold"
               >
                 Get Started
               </Button>
@@ -126,29 +126,29 @@ export function LandingPage({ onNavigate }: LandingPageProps) {
         <CardContent>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <div className="bg-sea-bright-green/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <span className="text-3xl">1️⃣</span>
               </div>
-              <h3 className="text-lg font-semibold mb-2">Enter Production Info</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="text-lg font-semibold mb-2 text-sea-green">Enter Production Info</h3>
+              <p className="text-sea-green-shadow text-sm">
                 Start by entering basic production details, locations, and schedule information
               </p>
             </div>
             <div className="text-center">
-              <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <div className="bg-sea-bright-green/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <span className="text-3xl">2️⃣</span>
               </div>
-              <h3 className="text-lg font-semibold mb-2">Track Emissions</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="text-lg font-semibold mb-2 text-sea-green">Track Emissions</h3>
+              <p className="text-sea-green-shadow text-sm">
                 Add data for relevant emission sources: utilities, fuel, travel, hotels, and more
               </p>
             </div>
             <div className="text-center">
-              <div className="bg-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <div className="bg-sea-bright-green/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <span className="text-3xl">3️⃣</span>
               </div>
-              <h3 className="text-lg font-semibold mb-2">View Results</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="text-lg font-semibold mb-2 text-sea-green">View Results</h3>
+              <p className="text-sea-green-shadow text-sm">
                 Review your carbon footprint on the dashboard and track sustainability metrics
               </p>
             </div>
@@ -197,9 +197,9 @@ export function LandingPage({ onNavigate }: LandingPageProps) {
       </div>
 
       {/* Tips & Best Practices */}
-      <Card className="bg-blue-50 border-blue-200">
+      <Card className="bg-sea-bright-green/10 border-sea-green/20">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-sea-green">
             <span>💡</span>
             Tips & Best Practices
           </CardTitle>
@@ -207,43 +207,43 @@ export function LandingPage({ onNavigate }: LandingPageProps) {
         <CardContent>
           <div className="grid md:grid-cols-2 gap-6">
             <div>
-              <h4 className="font-semibold text-gray-800 mb-3">Data Collection</h4>
-              <ul className="space-y-2 text-sm text-gray-700">
+              <h4 className="font-semibold text-sea-green mb-3">Data Collection</h4>
+              <ul className="space-y-2 text-sm text-sea-green-shadow">
                 <li className="flex items-start gap-2">
-                  <span className="text-green-500 mt-0.5">✓</span>
+                  <span className="text-sea-bright-green mt-0.5">✓</span>
                   <span>Enter data regularly throughout production for best accuracy</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-green-500 mt-0.5">✓</span>
+                  <span className="text-sea-bright-green mt-0.5">✓</span>
                   <span>Only track emission sources relevant to your production</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-green-500 mt-0.5">✓</span>
+                  <span className="text-sea-bright-green mt-0.5">✓</span>
                   <span>Work with your facilities, transportation, and catering teams</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-green-500 mt-0.5">✓</span>
+                  <span className="text-sea-bright-green mt-0.5">✓</span>
                   <span>Keep receipts and invoices organized for reference</span>
                 </li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold text-gray-800 mb-3">Using the Calculator</h4>
-              <ul className="space-y-2 text-sm text-gray-700">
+              <h4 className="font-semibold text-sea-green mb-3">Using the Calculator</h4>
+              <ul className="space-y-2 text-sm text-sea-green-shadow">
                 <li className="flex items-start gap-2">
-                  <span className="text-blue-500 mt-0.5">→</span>
+                  <span className="text-sea-green mt-0.5">→</span>
                   <span>Start with Production Information to set up your project</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-blue-500 mt-0.5">→</span>
+                  <span className="text-sea-green mt-0.5">→</span>
                   <span>Use the Dashboard to view your overall carbon footprint</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-blue-500 mt-0.5">→</span>
+                  <span className="text-sea-green mt-0.5">→</span>
                   <span>Add comments to entries to note data sources and details</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-blue-500 mt-0.5">→</span>
+                  <span className="text-sea-green mt-0.5">→</span>
                   <span>Track PEAR Metrics to showcase sustainability efforts</span>
                 </li>
               </ul>
