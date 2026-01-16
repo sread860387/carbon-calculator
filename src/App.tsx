@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { LandingPage } from './pages/LandingPage';
 import { ProductionInfoPage } from './pages/ProductionInfoPage';
 import { DashboardPage } from './pages/DashboardPage';
@@ -254,6 +255,9 @@ function App() {
           setShowTour(false);
         }}
       />
+
+      {/* Vercel Analytics */}
+      <Analytics />
     </div>
   );
 }
