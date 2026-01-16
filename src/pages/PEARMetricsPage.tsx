@@ -11,15 +11,6 @@ import { DrinkingWaterForm } from '../components/modules/pearMetrics/DrinkingWat
 import { WasteForm } from '../components/modules/pearMetrics/WasteForm';
 import { DonationForm, RecycledPaperForm, BiodieselForm, HybridVehicleForm, OtherFuelSavingForm } from '../components/modules/pearMetrics/OtherMetricsForms';
 import { formatDate } from '../utils/formatters';
-import type {
-  DrinkingWaterEntry,
-  WasteEntry,
-  DonationEntry,
-  RecycledPaperEntry,
-  BiodieselEntry,
-  HybridVehicleEntry,
-  OtherFuelSavingEntry
-} from '../types/pearMetrics.types';
 
 type Tab = 'water' | 'waste' | 'donations' | 'paper' | 'biodiesel' | 'fuel-savings';
 
@@ -73,7 +64,7 @@ export function PEARMetricsPage() {
 
     // Other Fuel Savings
     otherFuelSavingEntries,
-    otherFuelSavingTotals,
+    // otherFuelSavingTotals,
     addOtherFuelSavingEntry,
     deleteOtherFuelSavingEntry,
     clearOtherFuelSavings,

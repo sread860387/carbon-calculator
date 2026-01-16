@@ -52,6 +52,8 @@ export interface ProductionInfo {
   // Dates
   firstShootDate?: Date;
   lastShootDate?: Date;
+  startDate?: Date;  // Alias for firstShootDate
+  endDate?: Date;    // Alias for lastShootDate
 
   // Film-specific
   filmCategory?: FilmCategory;
@@ -66,6 +68,7 @@ export interface ProductionInfo {
 
   // Location Info
   region?: string;
+  country?: string;
   mainProductionOfficeLocation?: string;
   headquarterStateProvince?: string;
 

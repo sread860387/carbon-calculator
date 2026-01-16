@@ -7,7 +7,7 @@ import { SelectHTMLAttributes, forwardRef } from 'react';
 import { cn } from '../../utils/cn';
 
 export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
-  error?: boolean;
+  error?: string | boolean;
 }
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(

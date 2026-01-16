@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react';
 import { LandingPage } from './pages/LandingPage';
 import { ProductionInfoPage } from './pages/ProductionInfoPage';
 import { DashboardPage } from './pages/DashboardPage';
-import { DashboardPageDebug } from './pages/DashboardPageDebug';
-import { DashboardPageMinimal } from './pages/DashboardPageMinimal';
 import { UtilitiesPage } from './pages/UtilitiesPage';
 import { FuelPage } from './pages/FuelPage';
 import { EVChargingPage } from './pages/EVChargingPage';

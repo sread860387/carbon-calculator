@@ -12,9 +12,7 @@ import type {
   RecycledPaperEntry,
   BiodieselEntry,
   HybridVehicleEntry,
-  OtherFuelSavingEntry,
-  WaterContainerType,
-  WasteType
+  OtherFuelSavingEntry
 } from '../types/pearMetrics.types';
 
 interface PEARMetricsState {

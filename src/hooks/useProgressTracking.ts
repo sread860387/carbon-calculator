@@ -39,11 +39,11 @@ export function useProgressTracking() {
   const hotelEntries = hotelsStore?.entries || [];
   const travelEntries = travelStore?.entries || [];
   const charterEntries = charterStore?.entries || [];
-  const hybridVehicles = pearStore?.hybridVehicles || [];
-  const otherFuelSavings = pearStore?.otherFuelSavings || [];
-  const wasteReduction = pearStore?.wasteReduction || [];
-  const waterConservation = pearStore?.waterConservation || [];
-  const greenCertifications = pearStore?.greenCertifications || [];
+  const hybridVehicles = pearStore?.hybridVehicleEntries || [];
+  const otherFuelSavings = pearStore?.otherFuelSavingEntries || [];
+  const wasteReduction = pearStore?.wasteEntries || [];
+  const waterConservation = pearStore?.drinkingWaterEntries || [];
+  const greenCertifications = pearStore?.donationEntries || [];
 
   // Production Info progress
   const getProductionInfoProgress = (): ModuleProgress => {
