@@ -38,7 +38,7 @@ export function exportComprehensivePDF(data: ComprehensiveReportData) {
 
   // ===== Cover Page =====
   // Title
-  doc.setFillColor(34, 197, 94); // Green
+  doc.setFillColor(3, 67, 52); // S.E.A. Green
   doc.rect(0, 0, pageWidth, 60, 'F');
 
   doc.setTextColor(255, 255, 255);
@@ -99,7 +99,7 @@ export function exportComprehensivePDF(data: ComprehensiveReportData) {
 
   // Total Emissions Hero Section
   yPosition = 160;
-  doc.setFillColor(16, 185, 129); // Emerald
+  doc.setFillColor(3, 67, 52); // S.E.A. Green
   doc.roundedRect(20, yPosition, pageWidth - 40, 45, 5, 5, 'F');
 
   doc.setTextColor(255, 255, 255);
@@ -172,7 +172,7 @@ export function exportComprehensivePDF(data: ComprehensiveReportData) {
     body: tableData.slice(1),
     theme: 'grid',
     headStyles: {
-      fillColor: [34, 197, 94],
+      fillColor: [3, 67, 52], // S.E.A. Green
       fontSize: 10,
       fontStyle: 'bold'
     },
@@ -310,15 +310,17 @@ export function exportComprehensivePDF(data: ComprehensiveReportData) {
   for (let i = 1; i <= pageCount; i++) {
     doc.setPage(i);
     doc.setFontSize(8);
-    doc.setTextColor(128, 128, 128);
+    doc.setTextColor(3, 67, 52); // S.E.A. Green
     doc.text(
       `Page ${i} of ${pageCount}`,
       pageWidth / 2,
       pageHeight - 10,
       { align: 'center' }
     );
+    doc.setFontSize(7);
+    doc.setTextColor(128, 128, 128);
     doc.text(
-      'Generated with Carbon Calculator for Film & TV Production',
+      'Carbon Calculator for Film & TV Production • Sustainable Entertainment Alliance',
       pageWidth / 2,
       pageHeight - 6,
       { align: 'center' }

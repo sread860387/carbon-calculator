@@ -181,17 +181,16 @@ export function DashboardPage({ onNavigate }: DashboardPageProps) {
         </div>
         {totalCO2e > 0 && (
           <Button
-            variant="primary"
             onClick={handleExportPDF}
-            className="flex items-center gap-2 text-sm md:text-base w-full sm:w-auto"
+            className="flex items-center gap-2 text-base md:text-lg font-semibold w-full sm:w-auto bg-sea-bright-green text-sea-green hover:bg-sea-bright-green/90 px-6 py-3 shadow-lg"
           >
-            📄 <span className="hidden sm:inline">Export Full Report</span><span className="sm:hidden">Export PDF</span>
+            📄 Download Final Report
           </Button>
         )}
       </div>
 
       {/* Grand Total */}
-      <Card className="bg-gradient-to-r from-emerald-500 via-green-500 to-teal-500 text-white border-0">
+      <Card className="bg-gradient-to-r from-sea-green via-sea-green-shadow to-sea-green text-white border-0">
         <CardContent className="p-4 md:p-8">
           <div className="text-center">
             <p className="text-base md:text-lg font-medium opacity-90 mb-2 md:mb-3">
