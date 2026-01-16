@@ -4,6 +4,23 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  safelist: [
+    'bg-sea-green',
+    'bg-sea-green-shadow',
+    'bg-sea-bright-green',
+    'bg-production-purple',
+    'bg-production-purple-shadow',
+    'bg-wheat',
+    'bg-wheat-shadow',
+    'text-sea-green',
+    'text-sea-green-shadow',
+    'text-sea-bright-green',
+    'text-production-purple',
+    'text-wheat',
+    'border-sea-green',
+    'hover:bg-sea-green',
+    'hover:text-sea-bright-green',
+  ],
   theme: {
     extend: {
       colors: {

@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+@theme {
+  --color-sea-green: #034334;
+  --color-sea-green-shadow: #042C23;
+  --color-sea-bright-green: #00FF55;
+  --color-production-purple: #2C0651;
+  --color-production-purple-shadow: #1E0437;
+  --color-wheat: #F2F2EF;
+  --color-wheat-shadow: #E8E8E4;
+
+  --font-family-sans: 'Helvetica Neue', Arial, sans-serif;
+}
