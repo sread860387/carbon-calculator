@@ -7,19 +7,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        'sea': {
-          'green': '#034334',
-          'green-shadow': '#042C23',
-          'bright-green': '#00FF55',
-        },
-        'production': {
-          'purple': '#2C0651',
-          'purple-shadow': '#1E0437',
-        },
-        'wheat': {
-          DEFAULT: '#F2F2EF',
-          'shadow': '#E8E8E4',
-        },
+        'sea-green': '#034334',
+        'sea-green-shadow': '#042C23',
+        'sea-bright-green': '#00FF55',
+        'production-purple': '#2C0651',
+        'production-purple-shadow': '#1E0437',
+        'wheat': '#F2F2EF',
+        'wheat-shadow': '#E8E8E4',
       },
       fontFamily: {
         'sans': ['Helvetica Neue', 'Arial', 'sans-serif'],
