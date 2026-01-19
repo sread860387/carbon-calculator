@@ -40,6 +40,8 @@ export interface UtilitiesEntry {
 
   // Location information
   locationName: string;
+  country?: string; // For location-specific electricity emission factors
+  stateProvince?: string; // For region-specific factors (US/Canada)
 
   // Building/space information
   buildingType: BuildingType;
@@ -91,6 +93,8 @@ export interface UtilitiesFormData {
   date: string;
   description?: string;
   locationName: string;
+  country?: string;
+  stateProvince?: string;
   buildingType: BuildingType;
   area?: string;
   areaUnit?: AreaUnit;

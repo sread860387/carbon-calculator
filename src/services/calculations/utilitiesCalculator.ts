@@ -177,7 +177,9 @@ class UtilitiesCalculator {
   calculateEntry(entry: UtilitiesEntry): UtilitiesResult {
     // Calculate electricity usage and emissions
     const electricityKWh = this.calculateElectricityUsage(entry);
-    const electricityFactor = getElectricityEmissionFactor('United States'); // TODO: Make location-based
+    // Use entry's country if provided, otherwise default to United States
+    const country = entry.country || 'United States';
+    const electricityFactor = getElectricityEmissionFactor(country);
     const electricityEmissions = electricityKWh * electricityFactor.value;
 
     // Calculate heating usage and emissions

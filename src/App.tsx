@@ -47,7 +47,7 @@ function App() {
       hotels: 'Hotels & Housing',
       commercial: 'Commercial Travel',
       charter: 'Charter & Heli Flights',
-      metrics: 'PEAR Metrics'
+      metrics: 'Additional Sustainability Measurements'
     };
 
     if (currentPage === 'landing') {
@@ -217,7 +217,7 @@ function App() {
                 }
               `}
             >
-              Metrics
+              <span className="hidden lg:inline">Additional Sustainability </span>Measurements
             </button>
           </div>
         </div>

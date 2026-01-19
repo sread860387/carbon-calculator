@@ -77,9 +77,9 @@ export function PEARMetricsPage() {
       {/* Header */}
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">PEAR Sustainability Metrics</h1>
+          <h1 className="text-3xl font-bold text-gray-800">Additional Sustainability Measurements</h1>
           <p className="text-gray-600 mt-2">
-            Production Environmental Accounting Report - Track environmental activities and sustainability practices
+            Track environmental activities and sustainability practices beyond carbon emissions
           </p>
         </div>
         <Button onClick={clearAll} variant="danger" size="sm">
@@ -94,7 +94,7 @@ export function PEARMetricsPage() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <span className="text-3xl">📋</span>
-                <CardTitle>About PEAR Metrics</CardTitle>
+                <CardTitle>About Additional Sustainability Measurements</CardTitle>
               </div>
               <Button
                 variant="ghost"
@@ -109,7 +109,7 @@ export function PEARMetricsPage() {
           <CardContent>
             <div className="space-y-4">
               <p className="text-gray-700 leading-relaxed">
-                The PEAR Metrics section tracks environmental activities and resource conservation efforts
+                This section tracks environmental activities and resource conservation efforts
                 beyond carbon emissions. This includes waste diversion, water conservation, donations,
                 recycled materials, and fuel-saving initiatives.
               </p>
@@ -190,7 +190,7 @@ export function PEARMetricsPage() {
             onClick={() => setShowIntro(true)}
             className="text-emerald-600 hover:text-emerald-700"
           >
-            📋 Show PEAR Metrics Guide
+            📋 Show Guide
           </Button>
         </div>
       )}
@@ -218,7 +218,7 @@ export function PEARMetricsPage() {
                       <span className="text-3xl">✅</span>
                     </div>
                     <div>
-                      <p className="text-sm font-medium opacity-90">PEAR Metrics Progress</p>
+                      <p className="text-sm font-medium opacity-90">Progress</p>
                       <p className="text-2xl font-bold">{categoriesWithData} of 6 Categories</p>
                       <p className="text-sm opacity-90">{totalEntries} total entries</p>
                     </div>

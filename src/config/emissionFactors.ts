@@ -140,7 +140,7 @@ export const defaultEmissionFactors: EmissionFactorsConfig = {
         value: 0.259, // kg CO2e per passenger mile
         source: "DEFRA 2023 - Domestic Average",
         year: 2023,
-        notes: "< 288 miles; 0.161 kg CO2e/passenger-km"
+        notes: "< 288 miles (< 463 km); 0.161 kg CO2e/passenger-km"
       },
       medium: {
         id: "flight-medium",
@@ -150,7 +150,7 @@ export const defaultEmissionFactors: EmissionFactorsConfig = {
         value: 0.177, // kg CO2e per passenger mile
         source: "DEFRA 2023 - Short-Haul International Average",
         year: 2023,
-        notes: "288-688 miles; 0.110 kg CO2e/passenger-km"
+        notes: "288-688 miles (463-1107 km); 0.110 kg CO2e/passenger-km"
       },
       long: {
         id: "flight-long",
@@ -160,7 +160,7 @@ export const defaultEmissionFactors: EmissionFactorsConfig = {
         value: 0.248, // kg CO2e per passenger mile
         source: "DEFRA 2023 - Long-Haul International Average",
         year: 2023,
-        notes: "> 688 miles; 0.154 kg CO2e/passenger-km"
+        notes: "> 688 miles (> 1107 km); 0.154 kg CO2e/passenger-km"
       }
     },
 
@@ -601,9 +601,9 @@ export const EQUIPMENT_CATEGORIES: Record<string, 'Vehicle' | 'Equipment'> = {
 
 // Helper function to determine flight distance classification
 export function getFlightDistanceClass(distanceMiles: number): 'short' | 'medium' | 'long' {
-  if (distanceMiles < 288) return 'short';
-  if (distanceMiles < 688) return 'medium';
-  return 'long';
+  if (distanceMiles < 288) return 'short'; // < 463 km per DEFRA 2023
+  if (distanceMiles <= 688) return 'medium'; // 463-1107 km per DEFRA 2023
+  return 'long'; // > 1107 km per DEFRA 2023
 }
 
 // CBECs Building Energy Intensity Data (2018)
@@ -724,9 +724,9 @@ export function getCommercialTravelEmissionFactor(
       // Determine flight classification based on distance
       if (distanceInMiles === undefined) {
         return defaultEmissionFactors.factors.air.average;
-      } else if (distanceInMiles < 287.7) {
+      } else if (distanceInMiles < 288) {
         return defaultEmissionFactors.factors.air.short;
-      } else if (distanceInMiles <= 688.5) {
+      } else if (distanceInMiles <= 688) {
         return defaultEmissionFactors.factors.air.medium;
       } else {
         return defaultEmissionFactors.factors.air.long;
@@ -747,11 +747,12 @@ export function getCommercialTravelEmissionFactor(
 
 /**
  * Determine flight classification based on distance in miles
+ * DEFRA 2023: Short < 288 mi (463 km), Medium 288-688 mi (463-1107 km), Long > 688 mi (1107 km)
  */
 export function getFlightClassification(distanceInMiles: number): string {
-  if (distanceInMiles < 287.7) {
+  if (distanceInMiles < 288) {
     return 'Short';
-  } else if (distanceInMiles <= 688.5) {
+  } else if (distanceInMiles <= 688) {
     return 'Medium';
   } else {
     return 'Long';
