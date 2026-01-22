@@ -16,9 +16,11 @@ import { ProgressIndicator } from '../components/shared/ProgressIndicator';
 import { PieChart } from '../components/shared/PieChart';
 import { BarChart } from '../components/shared/BarChart';
 import { ComparisonView } from '../components/shared/ComparisonView';
+import { useState } from 'react';
 import { formatCO2Large } from '../utils/formatters';
 import { exportComprehensivePDF } from '../services/export/comprehensivePdfExport';
 import { exportComprehensiveCSV } from '../services/export/csvExport';
+import { ContributeDataModal, ContributeDataFormData } from '../components/shared/ContributeDataModal';
 
 interface ModuleData {
   name: string;
@@ -43,6 +45,8 @@ export function DashboardPage({ onNavigate }: DashboardPageProps) {
   const commercialTravelStore = useCommercialTravelStore();
   const charterFlightsStore = useCharterFlightsStore();
   const productionInfoStore = useProductionInfoStore();
+
+  const [showContributeModal, setShowContributeModal] = useState(false);
 
   const utilitesTotals = utilitiesStore.totals;
   const fuelTotals = fuelStore.totals;
@@ -181,6 +185,43 @@ export function DashboardPage({ onNavigate }: DashboardPageProps) {
     });
   };
 
+  // Handle data contribution to SEA
+  const handleContributeData = async (formData: ContributeDataFormData) => {
+    try {
+      const response = await fetch('/api/contribute-data', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ...formData,
+          productionData: {
+            productionName: productionInfo?.productionName,
+            productionType: productionInfo?.productionType,
+            country: productionInfo?.country,
+            totalShootDays: productionInfo?.totalShootDays,
+            totalEmissions: totalCO2e,
+            moduleBreakdown: modules.map(m => ({
+              name: m.name,
+              co2e: m.co2e,
+              entries: m.entries
+            }))
+          }
+        })
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Failed to submit data');
+      }
+
+      return;
+    } catch (error) {
+      console.error('Error contributing data:', error);
+      throw error;
+    }
+  };
+
   return (
     <div className="space-y-6 md:space-y-8">
       {/* Header */}
@@ -261,6 +302,32 @@ export function DashboardPage({ onNavigate }: DashboardPageProps) {
           </div>
         </CardContent>
       </Card>
+
+      {/* Contribute to Benchmarking Report */}
+      {totalCO2e > 0 && (
+        <Card className="border-2 border-sea-green bg-gradient-to-r from-sea-bright-green/20 to-white">
+          <CardContent className="p-4 md:p-6">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+              <div className="flex-1">
+                <h3 className="text-lg md:text-xl font-bold text-sea-green mb-2">
+                  Help Shape Industry Standards
+                </h3>
+                <p className="text-sm md:text-base text-gray-700">
+                  Contribute your production's carbon data to the Sustainable Entertainment Alliance's
+                  Benchmarking Report. Your anonymous data helps establish industry baselines and track
+                  collective progress toward sustainability goals.
+                </p>
+              </div>
+              <Button
+                onClick={() => setShowContributeModal(true)}
+                className="flex-shrink-0 w-full md:w-auto bg-sea-green text-white hover:bg-sea-green-shadow px-6 py-3 text-base font-semibold shadow-lg whitespace-nowrap"
+              >
+                🌱 Contribute Your Data
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Progress Indicator */}
       <ProgressIndicator onNavigate={onNavigate} />
@@ -506,6 +573,22 @@ export function DashboardPage({ onNavigate }: DashboardPageProps) {
           </CardContent>
         </Card>
       )}
+
+      {/* Contribute Data Modal */}
+      <ContributeDataModal
+        isOpen={showContributeModal}
+        onClose={() => setShowContributeModal(false)}
+        onSubmit={handleContributeData}
+        productionData={{
+          productionName: productionInfo?.productionName,
+          totalEmissions: totalCO2e,
+          moduleBreakdown: modules.map(m => ({
+            name: m.name,
+            co2e: m.co2e,
+            entries: m.entries
+          }))
+        }}
+      />
     </div>
   );
 }
