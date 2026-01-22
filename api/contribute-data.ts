@@ -265,7 +265,7 @@ async function sendEmail(options: {
         'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        from: 'SEA Carbon Calculator <noreply@sustainableentertainmentalliance.org>',
+        from: 'onboarding@resend.dev', // Resend's verified test domain - update this when your domain is verified
         to: options.to,
         subject: options.subject,
         html: options.html,
