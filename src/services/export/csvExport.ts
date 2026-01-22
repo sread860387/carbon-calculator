@@ -120,3 +120,129 @@ export function exportTransportSummaryToCSV(data: TransportModuleResults) {
   link.click();
   document.body.removeChild(link);
 }
+
+/**
+ * Comprehensive CSV Export
+ * Export production-wide summary to CSV
+ */
+
+interface ModuleData {
+  name: string;
+  totalCO2e: number;
+  entries: number;
+}
+
+interface ProductionData {
+  productionName?: string;
+  productionType?: string;
+  country?: string;
+  totalShootDays?: number;
+  startDate?: Date;
+  endDate?: Date;
+}
+
+interface ComprehensiveReportData {
+  production: ProductionData;
+  modules: ModuleData[];
+  totalEmissions: number;
+  generatedAt: Date;
+}
+
+export function exportComprehensiveCSV(data: ComprehensiveReportData) {
+  // Production Information Section
+  const productionRows: any[] = [];
+
+  productionRows.push({ Section: 'PRODUCTION INFORMATION', Value: '' });
+  if (data.production.productionName) {
+    productionRows.push({ Section: 'Production Name', Value: data.production.productionName });
+  }
+  if (data.production.productionType) {
+    productionRows.push({ Section: 'Production Type', Value: data.production.productionType });
+  }
+  if (data.production.country) {
+    productionRows.push({ Section: 'Country', Value: data.production.country });
+  }
+  if (data.production.totalShootDays) {
+    productionRows.push({ Section: 'Total Shoot Days', Value: data.production.totalShootDays.toString() });
+  }
+  if (data.production.startDate) {
+    productionRows.push({ Section: 'Start Date', Value: formatDate(data.production.startDate, 'yyyy-MM-dd') });
+  }
+  if (data.production.endDate) {
+    productionRows.push({ Section: 'End Date', Value: formatDate(data.production.endDate, 'yyyy-MM-dd') });
+  }
+
+  productionRows.push({ Section: '', Value: '' }); // Empty row
+
+  // Total Emissions Section
+  productionRows.push({ Section: 'TOTAL CARBON FOOTPRINT', Value: '' });
+  productionRows.push({
+    Section: 'Total Emissions',
+    Value: `${data.totalEmissions.toFixed(2)} kg CO2e`
+  });
+
+  if (data.totalEmissions >= 1000) {
+    productionRows.push({
+      Section: 'Total Emissions (tonnes)',
+      Value: `${(data.totalEmissions / 1000).toFixed(2)} tonnes CO2e`
+    });
+  }
+
+  if (data.production.totalShootDays && data.production.totalShootDays > 0) {
+    const perDay = data.totalEmissions / data.production.totalShootDays;
+    productionRows.push({
+      Section: 'Average per Shoot Day',
+      Value: `${perDay.toFixed(2)} kg CO2e`
+    });
+  }
+
+  productionRows.push({ Section: '', Value: '' }); // Empty row
+
+  // Emissions by Module Section
+  productionRows.push({ Section: 'EMISSIONS BY MODULE', Value: '' });
+
+  const modulesWithEmissions = data.modules.filter(m => m.totalCO2e > 0);
+
+  const moduleRows: any[] = [
+    { Module: 'Module Name', Entries: 'Entries', 'Emissions (kg CO2e)': 'Emissions (kg CO2e)', 'Percentage': 'Percentage' }
+  ];
+
+  modulesWithEmissions.forEach(module => {
+    const percentage = ((module.totalCO2e / data.totalEmissions) * 100).toFixed(1);
+    moduleRows.push({
+      Module: module.name,
+      Entries: module.entries.toString(),
+      'Emissions (kg CO2e)': module.totalCO2e.toFixed(2),
+      Percentage: `${percentage}%`
+    });
+  });
+
+  // Add total row
+  moduleRows.push({
+    Module: 'TOTAL',
+    Entries: data.modules.reduce((sum, m) => sum + m.entries, 0).toString(),
+    'Emissions (kg CO2e)': data.totalEmissions.toFixed(2),
+    Percentage: '100.0%'
+  });
+
+  // Combine all sections
+  const summarySection = Papa.unparse(productionRows);
+  const moduleSection = Papa.unparse(moduleRows);
+
+  const csv = summarySection + '\n\n' + moduleSection + '\n\n' +
+    `Report Generated,${formatDate(data.generatedAt, 'yyyy-MM-dd HH:mm')}\n` +
+    `Source,DEFRA 2023 Greenhouse Gas Reporting Conversion Factors\n`;
+
+  // Download
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+
+  link.setAttribute('href', url);
+  link.setAttribute('download', `carbon-footprint-report-${new Date().toISOString().split('T')[0]}.csv`);
+  link.style.visibility = 'hidden';
+
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}

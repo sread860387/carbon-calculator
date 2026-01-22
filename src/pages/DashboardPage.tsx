@@ -18,6 +18,7 @@ import { BarChart } from '../components/shared/BarChart';
 import { ComparisonView } from '../components/shared/ComparisonView';
 import { formatCO2Large } from '../utils/formatters';
 import { exportComprehensivePDF } from '../services/export/comprehensivePdfExport';
+import { exportComprehensiveCSV } from '../services/export/csvExport';
 
 interface ModuleData {
   name: string;
@@ -159,6 +160,27 @@ export function DashboardPage({ onNavigate }: DashboardPageProps) {
     });
   };
 
+  // Handle comprehensive CSV export
+  const handleExportCSV = () => {
+    exportComprehensiveCSV({
+      production: {
+        productionName: productionInfo?.productionName,
+        productionType: productionInfo?.productionType,
+        country: productionInfo?.country,
+        totalShootDays: productionInfo?.totalShootDays,
+        startDate: productionInfo?.startDate,
+        endDate: productionInfo?.endDate
+      },
+      modules: modules.map(m => ({
+        name: m.name,
+        totalCO2e: m.co2e,
+        entries: m.entries
+      })),
+      totalEmissions: totalCO2e,
+      generatedAt: new Date()
+    });
+  };
+
   return (
     <div className="space-y-6 md:space-y-8">
       {/* Header */}
@@ -180,12 +202,20 @@ export function DashboardPage({ onNavigate }: DashboardPageProps) {
           </p>
         </div>
         {totalCO2e > 0 && (
-          <Button
-            onClick={handleExportPDF}
-            className="flex items-center gap-2 text-base md:text-lg font-semibold w-full sm:w-auto bg-sea-bright-green text-sea-green hover:bg-sea-bright-green/90 px-6 py-3 shadow-lg"
-          >
-            📄 Download Final Report
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+            <Button
+              onClick={handleExportPDF}
+              className="flex items-center gap-2 text-base md:text-lg font-semibold bg-sea-bright-green text-sea-green hover:bg-sea-bright-green/90 px-6 py-3 shadow-lg"
+            >
+              📄 Download PDF Report
+            </Button>
+            <Button
+              onClick={handleExportCSV}
+              className="flex items-center gap-2 text-base md:text-lg font-semibold bg-sea-green text-white hover:bg-sea-green-shadow px-6 py-3 shadow-lg"
+            >
+              📊 Download CSV
+            </Button>
+          </div>
         )}
       </div>
 
