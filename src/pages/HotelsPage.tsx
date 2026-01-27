@@ -31,6 +31,24 @@ export function HotelsPage() {
         </div>
       </div>
 
+      {/* Important Note */}
+      <Card className="bg-blue-50 border-blue-200">
+        <CardContent className="p-4">
+          <div className="flex items-start gap-3">
+            <span className="text-2xl">ℹ️</span>
+            <div className="flex-1">
+              <p className="font-semibold text-blue-900 mb-1">Scope Classification Note</p>
+              <p className="text-sm text-blue-800">
+                This module is for <strong>crew accommodation</strong> (temporary lodging), which is classified as <strong>Scope 3: Business Travel</strong>.
+                If you're using hotel rooms as <strong>production offices</strong> (working spaces where you have operational control),
+                those should be entered as locations on the <a href="#/production-info" className="underline font-medium hover:text-blue-600">Production Info</a> tab
+                and their energy consumption tracked in the <a href="#/utilities" className="underline font-medium hover:text-blue-600">Utilities</a> module (Scope 1 & 2).
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Summary Cards */}
       {totals && totals.totalCO2e > 0 && (
         <div className="grid md:grid-cols-3 gap-6">
