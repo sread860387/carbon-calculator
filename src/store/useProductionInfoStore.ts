@@ -4,7 +4,7 @@
  */
 
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import type { ProductionInfo } from '../types/productionInfo.types';
 
 interface ProductionInfoState {
@@ -14,6 +14,27 @@ interface ProductionInfoState {
   updateProductionInfo: (info: ProductionInfo) => void;
   clearProductionInfo: () => void;
 }
+
+// Helper functions to handle Date serialization
+const reviveDates = (key: string, value: any) => {
+  // List of date field names in ProductionInfo
+  const dateFields = [
+    'firstShootDate',
+    'lastShootDate',
+    'startDate',
+    'endDate',
+    'calculatorContactDate',
+    'coordinatorSignOffDate',
+    'lastUpdated',
+    'fromDate',
+    'endDate'
+  ];
+
+  if (dateFields.includes(key) && typeof value === 'string') {
+    return new Date(value);
+  }
+  return value;
+};
 
 export const useProductionInfoStore = create<ProductionInfoState>()(
   persist(
@@ -35,7 +56,10 @@ export const useProductionInfoStore = create<ProductionInfoState>()(
     }),
     {
       name: 'production-info-storage',
-      version: 2
+      version: 3,
+      storage: createJSONStorage(() => localStorage, {
+        reviver: reviveDates
+      })
     }
   )
 );
