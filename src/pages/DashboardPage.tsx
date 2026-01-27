@@ -21,6 +21,7 @@ import { formatCO2Large } from '../utils/formatters';
 import { exportComprehensivePDF } from '../services/export/comprehensivePdfExport';
 import { exportComprehensiveCSV } from '../services/export/csvExport';
 import { ContributeDataModal, ContributeDataFormData } from '../components/shared/ContributeDataModal';
+import { calculateScopeBreakdown, getModuleScopeBreakdowns } from '../utils/scopeClassifications';
 
 interface ModuleData {
   name: string;
@@ -143,6 +144,25 @@ export function DashboardPage({ onNavigate }: DashboardPageProps) {
     color: colorMap[m.color] || '#6b7280'
   }));
 
+  // Calculate Scope 1 & 2 breakdown (SEA & BAFTA albert methodology)
+  const scopeBreakdown = calculateScopeBreakdown(
+    utilitesTotals,
+    fuelTotals,
+    evChargingTotals,
+    hotelsTotals,
+    commercialTravelTotals,
+    charterFlightsTotals
+  );
+
+  const moduleScopeBreakdowns = getModuleScopeBreakdowns(
+    utilitesTotals,
+    fuelTotals,
+    evChargingTotals,
+    hotelsTotals,
+    commercialTravelTotals,
+    charterFlightsTotals
+  );
+
   // Handle comprehensive PDF export
   const handleExportPDF = () => {
     exportComprehensivePDF({
@@ -160,6 +180,11 @@ export function DashboardPage({ onNavigate }: DashboardPageProps) {
         entries: m.entries
       })),
       totalEmissions: totalCO2e,
+      scopeBreakdown: {
+        scope1: scopeBreakdown.scope1,
+        scope2: scopeBreakdown.scope2,
+        scope3: scopeBreakdown.scope3
+      },
       generatedAt: new Date()
     });
   };
@@ -181,6 +206,11 @@ export function DashboardPage({ onNavigate }: DashboardPageProps) {
         entries: m.entries
       })),
       totalEmissions: totalCO2e,
+      scopeBreakdown: {
+        scope1: scopeBreakdown.scope1,
+        scope2: scopeBreakdown.scope2,
+        scope3: scopeBreakdown.scope3
+      },
       generatedAt: new Date()
     });
   };
@@ -201,6 +231,11 @@ export function DashboardPage({ onNavigate }: DashboardPageProps) {
             country: productionInfo?.country,
             totalShootDays: productionInfo?.totalShootDays,
             totalEmissions: totalCO2e,
+            scopeBreakdown: {
+              scope1: scopeBreakdown.scope1,
+              scope2: scopeBreakdown.scope2,
+              scope3: scopeBreakdown.scope3
+            },
             moduleBreakdown: modules.map(m => ({
               name: m.name,
               co2e: m.co2e,
@@ -302,6 +337,118 @@ export function DashboardPage({ onNavigate }: DashboardPageProps) {
           </div>
         </CardContent>
       </Card>
+
+      {/* Scope 1 & 2 Breakdown */}
+      {totalCO2e > 0 && (
+        <Card className="border-2 border-sea-green">
+          <CardHeader>
+            <CardTitle className="flex items-center justify-between">
+              <span>Scope 1 & 2 Emissions Breakdown</span>
+              <span className="text-xs font-normal text-gray-500">SEA & BAFTA albert Methodology</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid md:grid-cols-3 gap-4 md:gap-6 mb-6">
+              {/* Scope 1 */}
+              <div className="bg-gradient-to-br from-orange-50 to-white border-2 border-orange-200 rounded-lg p-4 md:p-6">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-3 h-3 rounded-full bg-orange-500"></div>
+                  <h3 className="font-bold text-gray-800">Scope 1</h3>
+                </div>
+                <p className="text-xs text-gray-600 mb-3">Direct emissions from owned/controlled sources</p>
+                <p className="text-2xl md:text-3xl font-bold text-orange-600">
+                  {formatCO2Large(scopeBreakdown.scope1, false)}
+                </p>
+                <p className="text-sm text-gray-600 mt-1">
+                  {scopeBreakdown.scope1 >= 1000 ? 'tonnes' : 'kg'} CO₂e
+                </p>
+                {totalCO2e > 0 && (
+                  <p className="text-xs text-gray-500 mt-2">
+                    {((scopeBreakdown.scope1 / totalCO2e) * 100).toFixed(1)}% of total
+                  </p>
+                )}
+              </div>
+
+              {/* Scope 2 */}
+              <div className="bg-gradient-to-br from-blue-50 to-white border-2 border-blue-200 rounded-lg p-4 md:p-6">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-3 h-3 rounded-full bg-blue-500"></div>
+                  <h3 className="font-bold text-gray-800">Scope 2</h3>
+                </div>
+                <p className="text-xs text-gray-600 mb-3">Purchased electricity</p>
+                <p className="text-2xl md:text-3xl font-bold text-blue-600">
+                  {formatCO2Large(scopeBreakdown.scope2, false)}
+                </p>
+                <p className="text-sm text-gray-600 mt-1">
+                  {scopeBreakdown.scope2 >= 1000 ? 'tonnes' : 'kg'} CO₂e
+                </p>
+                {totalCO2e > 0 && (
+                  <p className="text-xs text-gray-500 mt-2">
+                    {((scopeBreakdown.scope2 / totalCO2e) * 100).toFixed(1)}% of total
+                  </p>
+                )}
+              </div>
+
+              {/* Scope 3 */}
+              <div className="bg-gradient-to-br from-gray-50 to-white border-2 border-gray-200 rounded-lg p-4 md:p-6">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-3 h-3 rounded-full bg-gray-500"></div>
+                  <h3 className="font-bold text-gray-800">Scope 3</h3>
+                </div>
+                <p className="text-xs text-gray-600 mb-3">Other indirect emissions</p>
+                <p className="text-2xl md:text-3xl font-bold text-gray-600">
+                  {formatCO2Large(scopeBreakdown.scope3, false)}
+                </p>
+                <p className="text-sm text-gray-600 mt-1">
+                  {scopeBreakdown.scope3 >= 1000 ? 'tonnes' : 'kg'} CO₂e
+                </p>
+                {totalCO2e > 0 && (
+                  <p className="text-xs text-gray-500 mt-2">
+                    {((scopeBreakdown.scope3 / totalCO2e) * 100).toFixed(1)}% of total
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* Module-by-Module Scope Breakdown */}
+            <div className="border-t pt-4">
+              <h4 className="font-semibold text-gray-800 mb-3">Scope Classification by Module</h4>
+              <div className="space-y-2">
+                {moduleScopeBreakdowns.map((module) => (
+                  <div key={module.moduleName} className="flex items-center gap-2 text-sm">
+                    <span className="font-medium text-gray-700 w-40">{module.moduleName}:</span>
+                    <div className="flex gap-3 flex-wrap">
+                      {module.scope1 > 0 && (
+                        <span className="text-orange-600">
+                          Scope 1: {module.scope1.toFixed(0)} kg
+                        </span>
+                      )}
+                      {module.scope2 > 0 && (
+                        <span className="text-blue-600">
+                          Scope 2: {module.scope2.toFixed(0)} kg
+                        </span>
+                      )}
+                      {module.scope3 > 0 && (
+                        <span className="text-gray-600">
+                          Scope 3: {module.scope3.toFixed(0)} kg
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+                <p className="text-xs text-gray-700">
+                  <strong>Note:</strong> Scope classifications follow SEA & BAFTA albert methodology based on operational control.
+                  Scope 1 & 2 represent the minimum reporting boundary. Scope 3 emissions (hotels, travel) are shown for transparency
+                  but are outside the minimum boundary for film & TV productions.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Contribute to Benchmarking Report */}
       {totalCO2e > 0 && (

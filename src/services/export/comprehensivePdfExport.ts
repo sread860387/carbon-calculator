@@ -23,10 +23,17 @@ interface ProductionData {
   endDate?: Date;
 }
 
+interface ScopeBreakdown {
+  scope1: number;
+  scope2: number;
+  scope3: number;
+}
+
 interface ComprehensiveReportData {
   production: ProductionData;
   modules: ModuleData[];
   totalEmissions: number;
+  scopeBreakdown?: ScopeBreakdown;
   generatedAt: Date;
 }
 
@@ -192,6 +199,98 @@ export function exportComprehensivePDF(data: ComprehensiveReportData) {
   });
 
   yPosition = (doc as any).lastAutoTable.finalY + 20;
+
+  // Scope 1 & 2 Breakdown (if provided)
+  if (data.scopeBreakdown) {
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Scope 1 & 2 Emissions Breakdown', 20, yPosition);
+    yPosition += 8;
+
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'italic');
+    doc.setTextColor(100, 100, 100);
+    doc.text('Based on SEA & BAFTA albert methodology', 20, yPosition);
+    yPosition += 10;
+    doc.setTextColor(0, 0, 0);
+
+    const scopeTableData: any[] = [
+      ['Scope', 'Description', 'Emissions (kg CO₂e)', 'Percentage']
+    ];
+
+    scopeTableData.push([
+      'Scope 1',
+      'Direct emissions (fuel combustion)',
+      formatCO2Large(data.scopeBreakdown.scope1, false),
+      `${((data.scopeBreakdown.scope1 / data.totalEmissions) * 100).toFixed(1)}%`
+    ]);
+
+    scopeTableData.push([
+      'Scope 2',
+      'Purchased electricity',
+      formatCO2Large(data.scopeBreakdown.scope2, false),
+      `${((data.scopeBreakdown.scope2 / data.totalEmissions) * 100).toFixed(1)}%`
+    ]);
+
+    scopeTableData.push([
+      'Scope 3',
+      'Other indirect emissions',
+      formatCO2Large(data.scopeBreakdown.scope3, false),
+      `${((data.scopeBreakdown.scope3 / data.totalEmissions) * 100).toFixed(1)}%`
+    ]);
+
+    const scope1And2Total = data.scopeBreakdown.scope1 + data.scopeBreakdown.scope2;
+    scopeTableData.push([
+      'Scope 1 & 2 Total',
+      'Minimum reporting boundary',
+      formatCO2Large(scope1And2Total, false),
+      `${((scope1And2Total / data.totalEmissions) * 100).toFixed(1)}%`
+    ]);
+
+    autoTable(doc, {
+      startY: yPosition,
+      head: [scopeTableData[0]],
+      body: scopeTableData.slice(1),
+      theme: 'grid',
+      headStyles: {
+        fillColor: [3, 67, 52],
+        fontSize: 9,
+        fontStyle: 'bold'
+      },
+      styles: {
+        fontSize: 8
+      },
+      columnStyles: {
+        2: { halign: 'right' },
+        3: { halign: 'right' }
+      },
+      margin: { left: 20, right: 20 }
+    });
+
+    yPosition = (doc as any).lastAutoTable.finalY + 15;
+
+    // Add note about scope classifications
+    doc.setFillColor(240, 248, 255); // Light blue
+    doc.roundedRect(20, yPosition, pageWidth - 40, 22, 2, 2, 'F');
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'normal');
+    doc.text(
+      'Note: Scope classifications based on operational control. Scope 1 & 2 represent',
+      25,
+      yPosition + 7
+    );
+    doc.text(
+      'the minimum reporting boundary for film & TV productions per SEA & BAFTA albert guidance.',
+      25,
+      yPosition + 13
+    );
+    doc.text(
+      'Scope 3 (hotels, travel) shown for transparency but outside minimum boundary.',
+      25,
+      yPosition + 19
+    );
+    yPosition += 30;
+  }
 
   // Key Insights
   doc.setFontSize(14);

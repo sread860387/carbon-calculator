@@ -19,6 +19,12 @@ interface VercelResponse {
   json: (data: any) => void;
 }
 
+interface ScopeBreakdown {
+  scope1: number;
+  scope2: number;
+  scope3: number;
+}
+
 interface ContributeDataRequest {
   contactName: string;
   contactEmail: string;
@@ -31,6 +37,7 @@ interface ContributeDataRequest {
     country?: string;
     totalShootDays?: number;
     totalEmissions: number;
+    scopeBreakdown?: ScopeBreakdown;
     moduleBreakdown: Array<{
       name: string;
       co2e: number;
@@ -181,6 +188,52 @@ function buildEmailContent(data: ContributeDataRequest): string {
         <p><strong>Modules with Data:</strong> ${modulesWithEmissions.length}</p>
       </div>
     </div>
+
+    ${productionData.scopeBreakdown ? `
+    <div class="section">
+      <h2>Scope 1 & 2 Emissions Breakdown</h2>
+      <p style="font-size: 12px; color: #666; font-style: italic;">Based on SEA & BAFTA albert methodology</p>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Scope</th>
+            <th>Description</th>
+            <th>Emissions (kg CO₂e)</th>
+            <th>Percentage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="data-row">
+            <td><strong>Scope 1</strong></td>
+            <td>Direct emissions (fuel combustion)</td>
+            <td>${productionData.scopeBreakdown.scope1.toFixed(2)}</td>
+            <td>${((productionData.scopeBreakdown.scope1 / productionData.totalEmissions) * 100).toFixed(1)}%</td>
+          </tr>
+          <tr class="data-row">
+            <td><strong>Scope 2</strong></td>
+            <td>Purchased electricity</td>
+            <td>${productionData.scopeBreakdown.scope2.toFixed(2)}</td>
+            <td>${((productionData.scopeBreakdown.scope2 / productionData.totalEmissions) * 100).toFixed(1)}%</td>
+          </tr>
+          <tr class="data-row">
+            <td><strong>Scope 3</strong></td>
+            <td>Other indirect emissions</td>
+            <td>${productionData.scopeBreakdown.scope3.toFixed(2)}</td>
+            <td>${((productionData.scopeBreakdown.scope3 / productionData.totalEmissions) * 100).toFixed(1)}%</td>
+          </tr>
+          <tr class="total-row">
+            <td><strong>Scope 1 & 2 Total</strong></td>
+            <td>Minimum reporting boundary</td>
+            <td>${(productionData.scopeBreakdown.scope1 + productionData.scopeBreakdown.scope2).toFixed(2)}</td>
+            <td>${(((productionData.scopeBreakdown.scope1 + productionData.scopeBreakdown.scope2) / productionData.totalEmissions) * 100).toFixed(1)}%</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size: 11px; color: #666; margin-top: 10px;">
+        Note: Scope classifications based on operational control. Scope 1 & 2 represent the minimum reporting boundary for film & TV productions.
+      </p>
+    </div>
+    ` : ''}
 
     <div class="section">
       <h2>Emissions Breakdown by Module</h2>

@@ -141,10 +141,17 @@ interface ProductionData {
   endDate?: Date;
 }
 
+interface ScopeBreakdown {
+  scope1: number;
+  scope2: number;
+  scope3: number;
+}
+
 interface ComprehensiveReportData {
   production: ProductionData;
   modules: ModuleData[];
   totalEmissions: number;
+  scopeBreakdown?: ScopeBreakdown;
   generatedAt: Date;
 }
 
@@ -197,6 +204,52 @@ export function exportComprehensiveCSV(data: ComprehensiveReportData) {
   }
 
   productionRows.push({ Section: '', Value: '' }); // Empty row
+
+  // Scope 1 & 2 Breakdown (if provided)
+  if (data.scopeBreakdown) {
+    productionRows.push({ Section: 'SCOPE 1 & 2 EMISSIONS BREAKDOWN', Value: '' });
+    productionRows.push({ Section: 'Methodology', Value: 'SEA & BAFTA albert' });
+    productionRows.push({ Section: '', Value: '' });
+
+    productionRows.push({
+      Section: 'Scope 1 (Direct emissions)',
+      Value: `${data.scopeBreakdown.scope1.toFixed(2)} kg CO2e`
+    });
+    productionRows.push({
+      Section: 'Scope 1 Percentage',
+      Value: `${((data.scopeBreakdown.scope1 / data.totalEmissions) * 100).toFixed(1)}%`
+    });
+
+    productionRows.push({
+      Section: 'Scope 2 (Purchased electricity)',
+      Value: `${data.scopeBreakdown.scope2.toFixed(2)} kg CO2e`
+    });
+    productionRows.push({
+      Section: 'Scope 2 Percentage',
+      Value: `${((data.scopeBreakdown.scope2 / data.totalEmissions) * 100).toFixed(1)}%`
+    });
+
+    const scope1And2 = data.scopeBreakdown.scope1 + data.scopeBreakdown.scope2;
+    productionRows.push({
+      Section: 'Scope 1 & 2 Total (Minimum boundary)',
+      Value: `${scope1And2.toFixed(2)} kg CO2e`
+    });
+    productionRows.push({
+      Section: 'Scope 1 & 2 Percentage',
+      Value: `${((scope1And2 / data.totalEmissions) * 100).toFixed(1)}%`
+    });
+
+    productionRows.push({
+      Section: 'Scope 3 (Other indirect)',
+      Value: `${data.scopeBreakdown.scope3.toFixed(2)} kg CO2e`
+    });
+    productionRows.push({
+      Section: 'Scope 3 Percentage',
+      Value: `${((data.scopeBreakdown.scope3 / data.totalEmissions) * 100).toFixed(1)}%`
+    });
+
+    productionRows.push({ Section: '', Value: '' });
+  }
 
   // Emissions by Module Section
   productionRows.push({ Section: 'EMISSIONS BY MODULE', Value: '' });
