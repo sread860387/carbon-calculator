@@ -13,10 +13,21 @@ import type { HotelsEntry } from '../types/hotels.types';
 
 export function HotelsPage() {
   const { entries, totals, results, addEntry, deleteEntry, clearAll } = useHotelsStore();
-  const [isFormVisible, setIsFormVisible] = useState(true);
+  const [openForms, setOpenForms] = useState<string[]>(['form-1']); // Track multiple form IDs
 
-  const handleAddEntry = (entry: HotelsEntry) => {
+  const handleAddEntry = (formId: string, entry: HotelsEntry) => {
     addEntry(entry);
+    // Remove the form after successful submission
+    setOpenForms(prev => prev.filter(id => id !== formId));
+  };
+
+  const handleAddNewForm = () => {
+    const newFormId = `form-${Date.now()}`;
+    setOpenForms(prev => [...prev, newFormId]);
+  };
+
+  const handleCancelForm = (formId: string) => {
+    setOpenForms(prev => prev.filter(id => id !== formId));
   };
 
   return (
@@ -183,26 +194,42 @@ export function HotelsPage() {
         </Card>
       )}
 
-      {/* Add New Entry Form */}
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle>Add Hotels/Housing Entry</CardTitle>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsFormVisible(!isFormVisible)}
-            >
-              {isFormVisible ? 'Hide' : 'Show'} Form
-            </Button>
-          </div>
-        </CardHeader>
-        {isFormVisible && (
-          <CardContent>
-            <HotelsForm onSubmit={handleAddEntry} />
-          </CardContent>
-        )}
-      </Card>
+      {/* Add New Entry Forms */}
+      <div className="space-y-4">
+        {openForms.map((formId, index) => (
+          <Card key={formId} className="border-2 border-blue-200">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle>
+                  Add Hotels/Housing Entry {openForms.length > 1 && `(${index + 1})`}
+                </CardTitle>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => handleCancelForm(formId)}
+                  className="text-gray-400 hover:text-red-600"
+                >
+                  Cancel
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <HotelsForm onSubmit={(entry) => handleAddEntry(formId, entry)} />
+            </CardContent>
+          </Card>
+        ))}
+
+        {/* Add Another Entry Button */}
+        <div className="flex justify-center">
+          <Button
+            onClick={handleAddNewForm}
+            variant="secondary"
+            className="border-dashed border-2"
+          >
+            + Add Another Entry
+          </Button>
+        </div>
+      </div>
 
       {/* Entries List */}
       {entries.length > 0 ? (
